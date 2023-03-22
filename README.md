@@ -1,5 +1,18 @@
-python-for-android
+Special Edition for MobileInsight
 ==================
+
+
+ The changes made to the original python-for-android project include:
+
+ + added `mobileinsight` recipe.
+
+ ## Note
+
+ + For developers: to debug the mobileInsight-desktop locally without
+ pushing to remote repo, go to `python-for-android/pythonforandroid/recipes/mobileinsight/__init__.py`,
+ and change line 9 and line 10 according to the instructions. Then re-install
+ python-for-android.
+
 
 [![Unit tests & build apps](https://github.com/kivy/python-for-android/workflows/Unit%20tests%20&%20build%20apps/badge.svg?branch=develop)](https://github.com/kivy/python-for-android/actions?query=workflow%3A%22Unit+tests+%26+build+apps%22)
 [![Coverage Status](https://coveralls.io/repos/github/kivy/python-for-android/badge.svg?branch=develop&kill_cache=1)](https://coveralls.io/github/kivy/python-for-android?branch=develop)

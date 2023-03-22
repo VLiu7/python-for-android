@@ -1068,6 +1068,8 @@ class ToolchainCL:
             self.hook("before_apk_assemble")
             build_tools_versions = os.listdir(join(ctx.sdk_dir,
                                                    'build-tools'))
+            build_tools_versions = [f for f in build_tools_versions
+                                         if not f.startswith('.')]
             build_tools_versions = sorted(build_tools_versions,
                                           key=LooseVersion)
             build_tools_version = build_tools_versions[-1]
@@ -1132,7 +1134,8 @@ class ToolchainCL:
 
         info_main('# Copying android package to current directory')
 
-        package_re = re.compile(r'.*Package: (.*\.apk)$')
+        # package_re = re.compile(r'.*Package: (.*\.apk)$')
+        package_re = re.compile(r'.*Please sign (/.*\.apk) manually$')
         package_file = None
         for line in reversed(output.splitlines()):
             m = package_re.match(line)

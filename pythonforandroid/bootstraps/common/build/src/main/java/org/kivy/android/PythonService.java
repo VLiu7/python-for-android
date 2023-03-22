@@ -61,8 +61,12 @@ public class PythonService extends Service implements Runnable {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (pythonThread != null) {
-            Log.v("python service", "service exists, do not start again");
-            return startType();
+            // Log.v("python service", "service exists, do not start again");
+            // return startType();
+            Log.v("python service", "service exists, stopping the old service");
+            pythonThread = null;
+            Process.killProcess(Process.myPid());
+            Log.v("python service", "Process.killProcess(Process.myPid());"); 
         }
 	//intent is null if OS restarts a STICKY service
         if (intent == null) {
@@ -165,6 +169,7 @@ public class PythonService extends Service implements Runnable {
     public void onDestroy() {
         super.onDestroy();
         pythonThread = null;
+        Log.v("python service", "service stopped");
         if (autoRestartService && startIntent != null) {
             Log.v("python service", "service restart requested");
             startService(startIntent);
