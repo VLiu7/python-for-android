@@ -12,34 +12,34 @@ class PyserialRecipe(Recipe):
     pyserial_git = 'https://github.com/pyserial/pyserial.git'
     pyserial_branch = 'master'
     version = '5.0'
-    toolchain_version = 4.9  # default GCC toolchain version we try to use
+    # toolchain_version = 4.9  # default GCC toolchain version we try to use
     depends = ['python3']  # any other recipe names that must be built before this one
 
-    def get_newest_toolchain(self, arch):
+    # def get_newest_toolchain(self, arch):
 
-        toolchain_versions = []
-        toolchain_prefix = arch.toolchain_prefix
-        toolchain_path = join(self.ctx.ndk_dir, 'toolchains')
-        if isdir(toolchain_path):
-            toolchain_contents = glob.glob('{}/{}-*'.format(toolchain_path,
-                                                            toolchain_prefix))
-            toolchain_versions = [split(path)[-1][len(toolchain_prefix) + 1:]
-                                  for path in toolchain_contents]
-        else:
-            warning('Could not find toolchain subdirectory!')
-        toolchain_versions.sort()
+    #     toolchain_versions = []
+    #     toolchain_prefix = arch.toolchain_prefix
+    #     toolchain_path = join(self.ctx.ndk_dir, 'toolchains')
+    #     if isdir(toolchain_path):
+    #         toolchain_contents = glob.glob('{}/{}-*'.format(toolchain_path,
+    #                                                         toolchain_prefix))
+    #         toolchain_versions = [split(path)[-1][len(toolchain_prefix) + 1:]
+    #                               for path in toolchain_contents]
+    #     else:
+    #         warning('Could not find toolchain subdirectory!')
+    #     toolchain_versions.sort()
 
-        toolchain_versions_gcc = []
-        for toolchain_version in toolchain_versions:
-            if toolchain_version[0].isdigit():
-                toolchain_versions_gcc.append(toolchain_version)  # GCC toolchains begin with a number
+    #     toolchain_versions_gcc = []
+    #     for toolchain_version in toolchain_versions:
+    #         if toolchain_version[0].isdigit():
+    #             toolchain_versions_gcc.append(toolchain_version)  # GCC toolchains begin with a number
 
-        if toolchain_versions:
-            toolchain_version = toolchain_versions_gcc[-1]  # the latest gcc toolchain
-        else:
-            warning('Could not find any toolchain for {}!'.format(toolchain_prefix))
+    #     if toolchain_versions:
+    #         toolchain_version = toolchain_versions_gcc[-1]  # the latest gcc toolchain
+    #     else:
+    #         warning('Could not find any toolchain for {}!'.format(toolchain_prefix))
 
-        self.toolchain_version = toolchain_version
+    #     self.toolchain_version = toolchain_version
 
     def prebuild_arch(self, arch):
         super(PyserialRecipe, self).prebuild_arch(arch)
@@ -63,7 +63,7 @@ class PyserialRecipe(Recipe):
                 _tail=20,
                 _critical=True)
 
-        self.get_newest_toolchain(arch)
+        # self.get_newest_toolchain(arch)
 
     def build_arch(self, arch):
         super(PyserialRecipe, self).build_arch(arch)

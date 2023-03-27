@@ -17,37 +17,37 @@ class MobileInsightRecipe(Recipe):
     mi_branch = 'master'
     local_src = '/home/vagrant/mi-dev/mobileinsight-core'
     version = '6.0'
-    toolchain_version = 4.9  # default GCC toolchain version we try to use
+    # toolchain_version = 4.9  # default GCC toolchain version we try to use
     depends = ['python3']  # any other recipe names that must be built before this one
 
-    def get_newest_toolchain(self, arch):
+    # def get_newest_toolchain(self, arch):
 
-        # warning("get_newest_toolchain(self, arch), toolchain prefix = {}".format(toolchain_prefix))
-        # [WARNING]: get_newest_toolchain(self, arch), toolchain prefix = arm-linux-androideabi
+    #     # warning("get_newest_toolchain(self, arch), toolchain prefix = {}".format(toolchain_prefix))
+    #     # [WARNING]: get_newest_toolchain(self, arch), toolchain prefix = arm-linux-androideabi
 
-        toolchain_versions = []
-        toolchain_prefix = arch.toolchain_prefix
-        toolchain_path = join(self.ctx.ndk_dir, 'toolchains')
-        if isdir(toolchain_path):
-            toolchain_contents = glob.glob('{}/{}-*'.format(toolchain_path,
-                                                            toolchain_prefix))
-            toolchain_versions = [split(path)[-1][len(toolchain_prefix) + 1:]
-                                  for path in toolchain_contents]
-        else:
-            warning('Could not find toolchain subdirectory!')
-        toolchain_versions.sort()
+    #     toolchain_versions = []
+    #     toolchain_prefix = arch.toolchain_prefix
+    #     toolchain_path = join(self.ctx.ndk_dir, 'toolchains')
+    #     if isdir(toolchain_path):
+    #         toolchain_contents = glob.glob('{}/{}-*'.format(toolchain_path,
+    #                                                         toolchain_prefix))
+    #         toolchain_versions = [split(path)[-1][len(toolchain_prefix) + 1:]
+    #                               for path in toolchain_contents]
+    #     else:
+    #         warning('Could not find toolchain subdirectory!')
+    #     toolchain_versions.sort()
 
-        toolchain_versions_gcc = []
-        for toolchain_version in toolchain_versions:
-            if toolchain_version[0].isdigit():
-                toolchain_versions_gcc.append(toolchain_version)  # GCC toolchains begin with a number
+    #     toolchain_versions_gcc = []
+    #     for toolchain_version in toolchain_versions:
+    #         if toolchain_version[0].isdigit():
+    #             toolchain_versions_gcc.append(toolchain_version)  # GCC toolchains begin with a number
 
-        if toolchain_versions:
-            toolchain_version = toolchain_versions_gcc[-1]  # the latest gcc toolchain
-        else:
-            warning('Could not find any toolchain for {}!'.format(toolchain_prefix))
+    #     if toolchain_versions:
+    #         toolchain_version = toolchain_versions_gcc[-1]  # the latest gcc toolchain
+    #     else:
+    #         warning('Could not find any toolchain for {}!'.format(toolchain_prefix))
 
-        self.toolchain_version = toolchain_version
+    #     self.toolchain_version = toolchain_version
 
     def get_recipe_env(self, arch):
         env = super(MobileInsightRecipe, self).get_recipe_env(arch)
@@ -57,18 +57,18 @@ class MobileInsightRecipe(Recipe):
         env['CFLAGS'] += ' -fPIC'
 
         env['CFLAGS'] += ' -I{ndk_dir}/sources/cxx-stl/llvm-libc++/include'.format(
-            ndk_dir=self.ctx.ndk_dir,
-            toolchain_version=self.toolchain_version)
+            ndk_dir=self.ctx.ndk_dir)
+            # toolchain_version=self.toolchain_version)
         env['CFLAGS'] += ' -I{ndk_dir}/sources/cxx-stl/llvm-libc++/libs/{arch}/include'.format(
             ndk_dir=self.ctx.ndk_dir,
-            toolchain_version=self.toolchain_version,
+            # toolchain_version=self.toolchain_version,
             arch=arch)
         env['CFLAGS'] += ' -I{}'.format(
             self.ctx.python_recipe.include_root(arch.arch)
         )
         env['LDFLAGS'] += ' -L{ndk_dir}/sources/cxx-stl/llvm-libc++/libs/{arch}'.format(
             ndk_dir=self.ctx.ndk_dir,
-            toolchain_version=self.toolchain_version,
+            # toolchain_version=self.toolchain_version,
             arch=arch)
         env['LDFLAGS'] += ' -L{} -lpython{}'.format(
             self.ctx.python_recipe.link_root(arch.arch),
@@ -147,7 +147,7 @@ class MobileInsightRecipe(Recipe):
                 _tail=20,
                 _critical=True)
 
-        self.get_newest_toolchain(arch)
+        # self.get_newest_toolchain(arch)
 
     def build_arch(self, arch):
         super(MobileInsightRecipe, self).build_arch(arch)
@@ -185,7 +185,7 @@ class MobileInsightRecipe(Recipe):
             shprint(sh.cp,
                     '{ndk_dir}/sources/cxx-stl/llvm-libc++/libs/{arch}/libc++_shared.so'.format(
                         ndk_dir=self.ctx.ndk_dir,
-                        toolchain_version=self.toolchain_version,
+                        # toolchain_version=self.toolchain_version,
                         arch=arch),
                     '{libs_dir}/{arch}'.format(
                         libs_dir=self.ctx.libs_dir,
