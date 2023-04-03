@@ -167,7 +167,7 @@ class MobileInsightRecipe(Recipe):
 
             shprint(hostpython, 'setup.py', 'build_ext', '-v', _env=env, _tail=10, _critical=True)
             shprint(hostpython, 'setup.py', 'install', '-O2',
-                '--root={}'.format(self.ctx.get_python_install_dir(arch=arch)),
+                '--root={}'.format(self.ctx.get_python_install_dir(arch.arch)),
                 '--install-lib=.',
                 _env=env, _tail=10, _critical=True)
 
@@ -177,21 +177,21 @@ class MobileInsightRecipe(Recipe):
 
             shprint(sh.find, build_lib[0], '-name', '*.so', '-exec', env['STRIP'], '{}', ';', _tail=20, _critical=True)
 
-        try:
-            warning('Copying LLVM libc++ STL shared lib to {libs_dir}/{arch}'.format(
-                libs_dir=self.ctx.libs_dir,
-                arch=arch))
+        # try:
+        #     warning('Copying LLVM libc++ STL shared lib to {libs_dir}/{arch}'.format(
+        #         libs_dir=self.ctx.libs_dir,
+        #         arch=arch))
 
-            shprint(sh.cp,
-                    '{ndk_dir}/sources/cxx-stl/llvm-libc++/libs/{arch}/libc++_shared.so'.format(
-                        ndk_dir=self.ctx.ndk_dir,
-                        # toolchain_version=self.toolchain_version,
-                        arch=arch),
-                    '{libs_dir}/{arch}'.format(
-                        libs_dir=self.ctx.libs_dir,
-                        arch=arch))
-        except:
-            warning('Failed to copy LLVM libc++ STL shared lib!')
+        #     shprint(sh.cp,
+        #             '{ndk_dir}/sources/cxx-stl/llvm-libc++/libs/{arch}/libc++_shared.so'.format(
+        #                 ndk_dir=self.ctx.ndk_dir,
+        #                 # toolchain_version=self.toolchain_version,
+        #                 arch=arch),
+        #             '{libs_dir}/{arch}'.format(
+        #                 libs_dir=self.ctx.libs_dir,
+        #                 arch=arch))
+        # except:
+        #     warning('Failed to copy LLVM libc++ STL shared lib!')
 
     def build_cython_components(self, arch):
         env = self.get_recipe_env(arch)

@@ -75,7 +75,7 @@ class PyserialRecipe(Recipe):
             hostpython = sh.Command(self.ctx.hostpython)
 
             shprint(hostpython, 'setup.py', 'install', '-O2',
-                '--root={}'.format(self.ctx.get_python_install_dir()),
+                '--root={}'.format(self.ctx.get_python_install_dir(arch.arch)),
                 '--install-lib=.',
                 _env=env, _tail=10, _critical=True)
 
