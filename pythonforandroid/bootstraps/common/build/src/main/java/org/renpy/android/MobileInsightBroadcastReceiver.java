@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.content.Context; 
 import android.os.Environment; 
 import android.util.Log;
-import org.renpy.android.PythonActivity; 
+import org.kivy.android.PythonActivity; 
 
 import java.io.File;
 import java.lang.StringBuilder;
