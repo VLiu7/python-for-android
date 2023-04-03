@@ -9,7 +9,7 @@ import sh
 from pythonforandroid.logger import info, shprint, warning
 from pythonforandroid.toolchain import Recipe, current_directory
 
-LOCAL_DEBUG = False
+LOCAL_DEBUG = True
 
 
 class MobileInsightRecipe(Recipe):
@@ -56,8 +56,8 @@ class MobileInsightRecipe(Recipe):
         #     toolchain_version=self.toolchain_version))
         env['CFLAGS'] += ' -fPIC'
 
-        env['CFLAGS'] += ' -I{ndk_dir}/sources/cxx-stl/llvm-libc++/include'.format(
-            ndk_dir=self.ctx.ndk_dir)
+        # env['CFLAGS'] += ' -I{ndk_dir}/sources/cxx-stl/llvm-libc++/include'.format(
+        #     ndk_dir=self.ctx.ndk_dir)
             # toolchain_version=self.toolchain_version)
         env['CFLAGS'] += ' -I{ndk_dir}/sources/cxx-stl/llvm-libc++/libs/{arch}/include'.format(
             ndk_dir=self.ctx.ndk_dir,
@@ -167,7 +167,7 @@ class MobileInsightRecipe(Recipe):
 
             shprint(hostpython, 'setup.py', 'build_ext', '-v', _env=env, _tail=10, _critical=True)
             shprint(hostpython, 'setup.py', 'install', '-O2',
-                '--root={}'.format(self.ctx.get_python_install_dir()),
+                '--root={}'.format(self.ctx.get_python_install_dir(arch=arch)),
                 '--install-lib=.',
                 _env=env, _tail=10, _critical=True)
 
